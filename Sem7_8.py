@@ -15,7 +15,7 @@ municipio_2 = {'mun_id' : '222666', 'den_km2' : 4.94, 'area' : 164315}
 #* La función «__init__» se ejecutará una sola vez
 class Mun:
     def __init__(self, mun_id, den_km2, area):
-        self.mun_id = mun_id
+        self.mun_id = mun_id #? Esto es un atributo de la clase «mun»
         self.den_km2 = den_km2
         self.area = area
     def population(self):
@@ -49,3 +49,24 @@ print(f'IMC de Renzo: {renzo.imc()}')
 #     print(sum(result)/len(result))
 
 #! Ver «pokemon.py» para más ejemplos.
+
+#! Ejercicios viernes:
+
+#* Dentro de nuestra clase «Pokemon», podemos iniciar un contador para tener una cantidad específica de pokemons creados. Cada instancia de la clase, aumenta en 1 el contador. Dicho contador debe estar dentro de la clase, pero fuera de la función «init». Este contador actuaría de propiedad de clase.
+
+class Animal:
+    count = 0
+
+    def set_count(value):
+        Animal.count += value
+
+    def __init__(self, name):
+        self.name = name
+        Animal.set_count(1)
+
+    def __str__(self):
+        return f'{self.name}'
+
+perro = Animal('Kuga')
+print(perro)
+print(Animal.count)
