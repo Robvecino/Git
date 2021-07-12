@@ -58,7 +58,7 @@ class Animal:
     count = 0
 
     def set_count(value):
-        Animal.count += value
+        Animal.count += value #? En este caso, se introduce Animal para hacer referencia a la clase; en el caso de que quisiésemos que afectase a una instancia, deberíamos usar «self».
 
     def __init__(self, name):
         self.name = name
@@ -68,5 +68,11 @@ class Animal:
         return f'{self.name}'
 
 perro = Animal('Kuga')
+gato = Animal('José')
 print(perro)
 print(Animal.count)
+
+#! Ejercicios lunes:
+
+class Employee:
+    subida = 1.02 #* Este atributo se pone por encima de «init» porque debe afectar a todos los empleados. Igual que en el caso del contador de la clase de animal.

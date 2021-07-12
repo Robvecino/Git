@@ -1,5 +1,6 @@
 from pokemon import *
 import random
+import funcs
 
 print('POKEMON'.center(50, '-'))
 print('Oak: Select your first pokemon...')
@@ -7,27 +8,31 @@ for i, pokemon in enumerate(pokemons):
     print(f'{i + 1}. {pokemon.name}')
 user = int(input('Select a pokemon: ')) - 1
 pokemon_a = pokemons[user]
-oponent = (random.choice(pokemons))
+oponent = random.choice(pokemons)
 print(f'This is your oponent: {oponent.name}')
+battle_fighters = [pokemon_a, oponent]
+funcs.battle(battle_fighters, pokemon_a, oponent)
 
 
-while oponent.hp > 0:
-    if pokemon_a == charmander:
-        for i, attack in enumerate(list_attaks_c):
-            print(f'{i + 1}. {attack.name}')
-        user_attack = int(input('Select an attack: ')) - 1
-        pokemon_a.attack(pokemon_a.attacks[user_attack], oponent)
-        input('Continue to the next attack...')
-    elif pokemon_a == bulbasaur:
-        for i, attack in enumerate(list_attaks_b):
-            print(f'{i + 1}. {attack.name}')
-        user_attack = int(input('Select an attack: ')) - 1
-        pokemon_a.attack(pokemon_a.attacks[user_attack], oponent)
-        input('Continue to the next attack...')
-    elif pokemon_a == squirtle:
-        for i, attack in enumerate(list_attaks_s):
-            print(f'{i + 1}. {attack.name}')
-        user_attack = int(input('Select an attack: ')) - 1
-        pokemon_a.attack(pokemon_a.attacks[user_attack], oponent)
-        input('Continue to the next attack...')
+
+
+# while oponent.hp > 0:
+#     if pokemon_a == charmander:
+#         for i, attack in enumerate(list_attaks_c):
+#             print(f'{i + 1}. {attack.name}')
+#         user_attack = int(input('Select an attack: ')) - 1
+#         pokemon_a.attack(pokemon_a.attacks[user_attack], oponent)
+#         input('Continue to the next attack...')
+#     elif pokemon_a == bulbasaur:
+#         for i, attack in enumerate(list_attaks_b):
+#             print(f'{i + 1}. {attack.name}')
+#         user_attack = int(input('Select an attack: ')) - 1
+#         pokemon_a.attack(pokemon_a.attacks[user_attack], oponent)
+#         input('Continue to the next attack...')
+#     elif pokemon_a == squirtle:
+#         for i, attack in enumerate(list_attaks_s):
+#             print(f'{i + 1}. {attack.name}')
+#         user_attack = int(input('Select an attack: ')) - 1
+#         pokemon_a.attack(pokemon_a.attacks[user_attack], oponent)
+#         input('Continue to the next attack...')
 
