@@ -59,6 +59,9 @@ class Animal:
 
     def set_count(value):
         Animal.count += value #? En este caso, se introduce Animal para hacer referencia a la clase; en el caso de que quisiésemos que afectase a una instancia, deberíamos usar «self».
+    # @classmethod #TODO Se puede usar este decorador (este código que comienza por arroba) para poder usar «cls» y no tener que citar la clase.
+    # def set_count(cls, value):
+    #     cls.count += value 
 
     def __init__(self, name):
         self.name = name
@@ -76,3 +79,21 @@ print(Animal.count)
 
 class Employee:
     subida = 1.02 #* Este atributo se pone por encima de «init» porque debe afectar a todos los empleados. Igual que en el caso del contador de la clase de animal.
+
+#* Ejemplo de decoradores:
+
+class Mun:
+    annual_growth = 1.03
+    def __init__(self, ine, density, area):
+        self.ine = ine
+        self.density = density
+        self.area = area
+    @property
+    def population(self):
+        return self.area * self.density
+    def apply_annual_growth(self, value):
+        return self.population * value
+
+mun_1 = Mun('28009', 3, 15)
+print(mun_1.population) #? Al usar el decorador «property», no hace falta llamrlo como método, sino como atributo.
+print(mun_1.population)

@@ -1,12 +1,24 @@
 
 elements = ['fire', 'grass', 'water']
 class Pokemon:
+    count = 0
+
+    def set_count():
+        Pokemon.count += 1
     def __init__(self, name, element, hp):
         self.name = name
         self.element = element
         self.hp = hp
         self.attacks = []
         self.is_alive = True
+        self.xp = 10
+        Pokemon.set_count()
+    @property #TODO Este decorador hace que puedas acceder al método como una propiedad.
+    def xp_damage(self):
+        return self.xp * 0.1
+    @property
+    def stamina(self):
+        return self.damage * self.xp
     def __str__(self):
         return f'Name: {self.name}\nType: {self.element}\nHP: {self.hp}\nAttacks: {self.attacks}'
     def learn(self, attack):
@@ -42,19 +54,19 @@ class Pokemon:
                         result = pokemon_d.hp - attack.damage
                         pokemon_d.hp = result
                         print(f'{self.name} has used {str(name_attack)}.\nThis attack has caused {attack.damage} DP to {pokemon_d.name}, who has now {result} HP.')
-    def receive_dam(self, attack):
+    def receive_dam(self, attack, damage_rate):
         if attack.element == self.element:
-            self.hp -= attack.damage
+            self.hp -= attack.damage * damage_rate
             self.is_alive = True if self.hp > 0 else False
         else:
             remain_elements = elements.copy()
             remain_elements = elements.remove(self.element)
             if attack.element == remain_elements[0]:
-                self.hp -= attack.damage * 1.5
+                self.hp -= (attack.damage * damage_rate) * 1.5
                 self.is_alive = True if self.hp > 0 else False
 
             else:
-                self.hp -= attack.damage * 0.5
+                self.hp -= (attack.damage * damage_rate)* 0.5
                 self.is_alive = True if self.hp > 0 else False
 
 class Attack:
@@ -102,4 +114,6 @@ list_attaks_s = [surf, water_gun, bubble]
 # user = int(input('Choose an attack: '))
 # bulbasaur.receive_dam(charmander.attacks[user - 1])
 # print(bulbasaur)
+
+print(Pokemon.count)
 
