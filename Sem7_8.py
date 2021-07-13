@@ -97,3 +97,21 @@ class Mun:
 mun_1 = Mun('28009', 3, 15)
 print(mun_1.population) #? Al usar el decorador «property», no hace falta llamrlo como método, sino como atributo.
 print(mun_1.population)
+
+#! Ejercicios martes:
+
+class Statistics:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    @property #* Es mejor definir «n» como una propiedad fuera del «init», puesto que este solo se ejecuta una sola vez y nos causaría problemas. Lo que nosotros buscamos es que el valor pueda ir modificándose.
+    def n(self):
+        return len(self.x)
+    
+    def x_mean(self):
+        return sum(self.x)/self.n
+
+subject_1 = Statistics([20, 18, 18, 16], [1, 2, 3, 4])
+print(subject_1.x_mean())
+subject_1.x.append(19)
+print(subject_1.x_mean())
