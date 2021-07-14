@@ -16,10 +16,11 @@ with open(f'{real_path}/covid.json', encoding = 'utf8') as file:
 
 #! Ejercicio 1
 
-# resultado = list(filter(lambda mun: mun['fecha_informe'].split(' ')[0] == "2020/07/01 09:00:00", data))
+# resultado = list(filter(lambda mun: mun['fecha_informe'].split(' ')[0] == "2020/07/01", data))
 # print(len(resultado))
 
 #! Ejercicio 2
+
 # resultado = list(filter(lambda mun: mun['fecha_informe'].split(' ')[0] == "2020/02/26", data))
 
 # try:
@@ -28,14 +29,53 @@ with open(f'{real_path}/covid.json', encoding = 'utf8') as file:
 # except KeyError:
 #     print('El número de casos confirmados a día 26/02/2020 es de 0')
 
-resultado = filter(lambda mun: mun['fecha_informe'].split(' ')[0] == "2020/07/01", data)
+#! Ejercicio 3
 
-list_result = []
-for mun in resultado:
-    try:
-        list_result.append(mun['casos_confirmados_totales'])
-    except KeyError:
-        continue
-print(sum(list_result))
+# resultado = filter(lambda mun: mun['fecha_informe'].split(' ')[0] == "2020/07/01", data)
 
+# list_result = []
+# for mun in resultado:
+#     try:
+#         list_result.append(mun['casos_confirmados_totales'])
+#     except KeyError:
+#         continue
+# print(sum(list_result))
+
+#! Ejercicio 4
+
+# resultado = filter(lambda mun: mun['fecha_informe'].split(' ')[0] == "2020/07/01", data)
+
+# list_result = []
+# for mun in resultado:
+#     try:
+#         if mun['casos_confirmados_totales'] > 0:
+#             list_result.append(mun)
+#     except KeyError:
+#         continue
+
+# resultado_2 = sorted(list_result, key = lambda mun: mun['casos_confirmados_totales'], reverse = True)[0:10]
+
+
+# [print(f'{mun["municipio_distrito"]}: {mun["casos_confirmados_totales"]}') for mun in resultado_2]
+
+#! Ejercicio 5
+
+dict_covid = {}
+list_covid = []
+
+for mun in data:
+    if mun['fecha_informe'].split(' ')[0] not in list_covid:
+        list_covid.append(mun['fecha_informe'].split(' ')[0])
+
+for date in list_covid:
+    resultado = filter(lambda mun: mun['fecha_informe'].split(' ')[0] == date, data)
+    list_result = []
+    for mun in resultado:
+        try:
+            list_result.append(mun['casos_confirmados_totales'])
+        except KeyError:
+            continue
+    dict_covid[date] = sum(list_result)
+    final = sorted(dict_covid.items())
+[print(f'{tupla[0]}: {tupla[1]}') for tupla in final]
 
