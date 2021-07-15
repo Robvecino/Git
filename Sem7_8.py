@@ -115,3 +115,15 @@ subject_1 = Statistics([20, 18, 18, 16], [1, 2, 3, 4])
 print(subject_1.x_mean())
 subject_1.x.append(19)
 print(subject_1.x_mean())
+
+#! Ejercicios jueves
+
+#* Función «zip»
+
+#TODO Esta función junta en tuplas cada valor de una lista con otro de otra lista, los cuales se encuentran en la misma posición.
+
+x = [1, 2, 3]
+y = [7, 6, 4]
+
+zip(x, y)
+list(zip(x, y))

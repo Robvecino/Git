@@ -4,6 +4,7 @@
 import requests as req
 import os
 import json
+from covid19_2 import Statistics
 real_path = os.path.dirname(__file__)
 
 # res = req.get(f'https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/ead67556-7e7d-45ee-9ae5-68765e1ebf7a/download/covid19_tia_muni_y_distritos.json').json()
@@ -76,6 +77,10 @@ for date in list_covid:
         except KeyError:
             continue
     dict_covid[date] = sum(list_result)
-    final = sorted(dict_covid.items())
-[print(f'{tupla[0]}: {tupla[1]}') for tupla in final]
+    final_dict = dict(sorted(dict_covid.items(), key = lambda tupla: tupla[1]))
+dates = list(final_dict.keys())
+Y = list(final_dict.values())
+X = [num for num in range(1, len(Y) + 1)]
 
+covid_data = Statistics(X, Y)
+print(covid_data.rxy)
