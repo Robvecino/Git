@@ -5,7 +5,7 @@ import requests as req
 import os
 import json
 from covid19_2 import Statistics
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 real_path = os.path.dirname(__file__)
 
 # res = req.get(f'https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/ead67556-7e7d-45ee-9ae5-68765e1ebf7a/download/covid19_tia_muni_y_distritos.json').json()
@@ -89,24 +89,24 @@ covid_data = Statistics(X, Y)
 Y_until65 = Y[0:66]
 X_until65 = [num for num in range(1, len(Y_until65) + 1)]
 
-fig, ax = plt.subplots()
-ax.plot(X_until65, Y_until65)
-plt.ylabel('Casos de Covid')
-plt.xlabel('Días de pandemia')
-plt.show()
+# fig, ax = plt.subplots()
+# ax.plot(X_until65, Y_until65)
+# plt.ylabel('Casos de Covid')
+# plt.xlabel('Días de pandemia')
+# plt.show()
 
 Y_after65 = Y[66:]
-X_after65 = [num for num in range(1, len(Y_after65) + 1)]
+X_after65 = [num for num in range(67, len(Y) + 1)]
 
 after65 = Statistics(X_after65, Y_after65)
 print(after65.rxy)
 
 #! Ejercicio 17
 
-print(after65.prediction(158))
+print(after65.prediction(158)) #? La predicción de casos totales a 1 de agosto de 2020.
 
-fig, ax = plt.subplots()
-ax.plot(X_after65, Y_after65)
-plt.ylabel('Casos de Covid')
-plt.xlabel('Días de pandemia')
-plt.show()
+# fig, ax = plt.subplots()
+# ax.plot(X_after65, Y_after65)
+# plt.ylabel('Casos de Covid')
+# plt.xlabel('Días de pandemia')
+# plt.show()
