@@ -1,7 +1,10 @@
 import json
 from json.decoder import JSONDecodeError
 import funcs
+import datetime
 
+server_token = None
+user_token = None
 count = 0
 
 while count < 1:
@@ -21,7 +24,19 @@ while count < 1:
         count = funcs.submenu_end(count)
     elif user == '2':
         data = funcs.open_json()
-        funcs.login(data)
+        user_token = funcs.login(data)
+        server_token = user_token
         count = funcs.submenu_end(count)
     elif user == '3':
+        data = funcs.open_json()
+        if user_token:
+            if (user_token['expire_date']  + datetime.timedelta(minutes = 1)) > datetime.datetime.today():
+                if user_token == server_token:
+                    funcs.change_pwd(data)
+            else:
+                print('Your session has already expired. Please, login again')
+        else:
+            print('You are not loged. Please, login to access.')
+        count = funcs.submenu_end(count)
+    elif user == '4':
         count += 1
