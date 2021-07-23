@@ -1,0 +1,19 @@
+{
+    "users": [
+        {
+            "name": "Esoo",
+            "pwd": "$2b$12$/Bdv/tDAQxB6o/4vrx55OOtYIJSSR0yzZeqXJ.FfPypvG.nw.sOVW",
+            "user_since": "2021-07-21"
+        },
+        {
+            "name": "Robvecino",
+            "pwd": "$2b$12$2pB1rc0givFxeTkVvzMJe.9IZey9gXMlzl3pncNGdEtVpv1oFi22G",
+            "user_since": "2021-07-21"
+        },
+        {
+            "name": "RobertoVec",
+            "pwd": "$2b$12$pEPGBEt0QasB/2.wCjMlLOZSyG0fV8YHVwWuJ6/4uM90jZ.awQm9a",
+            "user_since": "2021-07-22"
+        }
+    ]
+}
