@@ -1,5 +1,4 @@
 
-
 # import requests as req
 import json
 import os
@@ -28,12 +27,14 @@ def submenu2():
     print('1. Search DEA by code')
     print('2. Search nearest DEA by location')
     print('3. Modify DEA by code')
-    print('4. Back to main menu')
+    print('4. Search 10 nearest DEAs by location')
+    print('5. Back to main menu')
 
 # def write_json():
 #     with open(f'{CWD}/dea.json', 'w', encoding = 'utf8') as file:
 #         json.dump(res, file, ensure_ascii = False, indent = 4)
 
+# write_json()
 
 def open_json():
     with open(f'{CWD}/dea.json', encoding = 'utf8') as file:
@@ -44,7 +45,7 @@ def open_json_user():
     with open(f'{CWD}/users.json', encoding = 'utf8') as file:
         data = json.load(file)['users']
     return data
-    
+
 
 # data = open_json()
 # print(len(data))
@@ -104,13 +105,62 @@ def search_by_code(user_input, db):
         if dea['codigo_dea'] == user_input:
             print(dea)
 
-def search_by_loc(db, h_user):
-    result = []
+def search_by_code2(user_input, db):
     for dea in db:
-        h = ((int(dea['direccion_coordenada_x']) ** 2) + (int(dea['direccion_coordenada_y']) ** 2)) * 0.5
-        result.append(h)
-    result2 = sorted(result, key = lambda h: h > h_user)
-    return result2[0]
+        if dea['codigo_dea'] == user_input:
+            return dea
+
+class Dea():
+    def __init__(self, x ,y):
+        if type(x) != int:
+            raise Exception('Only inter input')
+        if type(y) != int:
+            raise Exception('Only inter input')
+        self.x = x
+        self.y = y
+
+    def search_by_loc(self, user_x, user_y):
+        c_1 = (self.x - user_x) ** 2
+        c_2 = (self.y - user_y) ** 2
+        h = (c_1 + c_2) ** 0.5
+        return h
+
+def search_by_loc(db, x_user, y_user):
+    distance_beat = 999999999999
+    first_place = None
+    count = 0
+    for dea in db:
+        dea_obj = Dea(int(dea['direccion_coordenada_x']), int(dea['direccion_coordenada_y']))
+        distance = dea_obj.search_by_loc(x_user, y_user)
+        if distance <= distance_beat:
+            first_place = dea
+            distance_beat = distance
+    return first_place
+
+def search_by_loc2(db, x_user, y_user):
+    count = 0
+    for dea in db:
+        dea_obj = Dea(int(dea['direccion_coordenada_x']), int(dea['direccion_coordenada_y']))
+        distance = dea_obj.search_by_loc(x_user, y_user)
+        dea['distance'] = distance
+        count += 1
+    result = list(sorted(db, key = lambda dea: dea['distance']))[0:11]
+    print('The nearest 10 DEAs are:')
+    for dea in result:
+        print(f'{dea["direccion_ubicacion"]}')
+
+def change_DEA(user_dea, db):
+    user_input = input('Insert a new code: ')
+    user_dea['codigo_dea'] = user_input
+    print(f'Succesfully changed!\nThe new code is: {user_dea["codigo_dea"]}')
+    for dea in db:
+        if dea['direccion_ubicacion'] == user_dea['direccion_ubicacion']:
+            dea['codigo_dea'] = user_dea['codigo_dea']
+    return db
+
+def overwrite_json_users(data):
+    with open(f'{CWD}/dea.json', 'w', encoding = 'utf8') as file:
+        json.dump({'data' : data}, file, ensure_ascii = False, indent = 4)
 
 def submenu_end(count):  
         user = input('Where do you want to go now?\nPlease, insert "e" for exit or "m" for menu: ')
@@ -124,20 +174,5 @@ def submenu_end(count):
             print('Invalid input. Returning back to the main menu...')
             count = 0
             return count
-
-class Dea():
-    def __init__(self, x ,y):
-        self.x = x
-        self.y = y
-
-    @property
-    def search_by_loc(self):
-        h = ((self.x ** 2) + (self.y ** 2)) * 0.5
-        return h
-
-des = Dea(325, 456)
-result = des.search_by_loc
-print(result)
-
 
 
