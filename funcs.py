@@ -4,7 +4,7 @@ import json
 import os
 import datetime
 import bcrypt
-
+import utm
 
 CWD = os.path.dirname(__file__)
 
@@ -16,7 +16,8 @@ def menu():
     print('Welcome to DEA APP'.center(50, '-'))
     print('1. Users')
     print('2. Enter to DEA')
-    print('3. Exit')
+    print('3. Coordinates conversor')
+    print('4. Exit')
 
 def submenu():
     print('1. Create a new user')
@@ -26,7 +27,7 @@ def submenu():
 def submenu2():
     print('1. Search DEA by code')
     print('2. Search nearest DEA by location')
-    print('3. Modify DEA by code')
+    print('3. Update DEA by code')
     print('4. Search 10 nearest DEAs by location')
     print('5. Back to main menu')
 
@@ -149,18 +150,69 @@ def search_by_loc2(db, x_user, y_user):
     for dea in result:
         print(f'{dea["direccion_ubicacion"]}')
 
-def change_DEA(user_dea, db):
-    user_input = input('Insert a new code: ')
-    user_dea['codigo_dea'] = user_input
-    print(f'Succesfully changed!\nThe new code is: {user_dea["codigo_dea"]}')
-    for dea in db:
-        if dea['direccion_ubicacion'] == user_dea['direccion_ubicacion']:
-            dea['codigo_dea'] = user_dea['codigo_dea']
-    return db
+def index_dea(iterable):
+    for i, v in enumerate(iterable):
+        print(f'{i + 1}. {v}')
+
+def print_DEA(dea):
+    for k, v in dea.items():
+        print(f'-------\n{k} : {v}')
+
+def upd_DEA(user_dea, db):
+    if user_dea != None:
+        keys = list(user_dea)
+        index_dea(keys)
+        try:
+            user_upd = int(input('Insert the number of the part you want to update: ')) - 1
+        except ValueError:
+            print('Invalid entry!')
+            return None
+        upd_key = keys[user_upd]
+        db.remove(user_dea)
+        user_dea[upd_key] = input(f'Insert the new data to change "{user_dea[upd_key]}": ')
+        db.append(user_dea)
+        print(f'The data was successfully updated to: {user_dea[upd_key]}')
+        print('This is the updated data: ')
+        print('----------------')
+        print_DEA(user_dea)
+        return db
+    else:
+        print('Invalid entry!')
+        return None
 
 def overwrite_json_users(data):
     with open(f'{CWD}/dea.json', 'w', encoding = 'utf8') as file:
         json.dump({'data' : data}, file, ensure_ascii = False, indent = 4)
+
+def coordinates_conv():
+    user_choice = input('Insert "U" if you want to convert to utm or "L" to convert to lat/lon: ')
+    if user_choice.lower() == 'u':
+        try:
+            user_lat = float(input('Insert the latitude: '))
+        except ValueError:
+            print('Invalid input!')
+            return None
+        try:
+            user_lon = float(input('Insert the longitude: '))
+        except ValueError:
+            print('Invalid input!')
+            return None
+        print(f'This is your result: {utm.from_latlon(user_lat, user_lon)}')
+    elif user_choice.lower() == 'l':
+        try:
+            user_x = float(input('Insert the x input: '))
+        except ValueError:
+            print('Invalid input!')
+            return None
+        try:
+            user_y = float(input('Insert the y input: '))
+        except ValueError:
+            print('Invalid input!')
+            return None
+        print(f'This is your result: {utm.to_latlon(user_x, user_y)}')
+    else:
+        print('Invalid input!')
+        return None
 
 def submenu_end(count):  
         user = input('Where do you want to go now?\nPlease, insert "e" for exit or "m" for menu: ')
@@ -174,5 +226,6 @@ def submenu_end(count):
             print('Invalid input. Returning back to the main menu...')
             count = 0
             return count
+
 
 
