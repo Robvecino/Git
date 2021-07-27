@@ -1,3 +1,4 @@
+
 import json
 import funcs
 import datetime
@@ -63,9 +64,9 @@ while count < 1:
             if user_token:
                 if (user_token['expire_date']  + datetime.timedelta(minutes = 30)) > datetime.datetime.today():
                     if user_token == server_token:
-                            user_input = input('Enter the code from the DEA to change: ')
+                            user_input = input('Enter the code from the DEA to update: ')
                             user_dea = funcs.search_by_code2(user_input, data)
-                            data_upd = funcs.change_DEA(user_dea, data)
+                            data_upd = funcs.upd_DEA(user_dea, data)
                             funcs.overwrite_json_users(data_upd)
                 else:
                     print('Your session has already expired. Please, login again')
@@ -88,6 +89,9 @@ while count < 1:
             print('Invalid entry!')
             sm2count = 0
     elif user == '3':
+        funcs.coordinates_conv()
+        count = funcs.submenu_end(count)
+    elif user == '4':
         count += 1
     else:
         print('Invalid input!')
