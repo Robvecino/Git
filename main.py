@@ -53,9 +53,10 @@ while count < 1:
                 count = 1
         elif user == '2':
             data = funcs.open_json()
-            x_user = int(input('Insert your X location: '))
-            y_user = int(input('Insert your Y location: '))
-            h_data = funcs.search_by_loc(data, x_user, y_user)
+            lat_user = float(input('Insert your latitude: '))
+            lon_user = float(input('Insert your longitude: '))
+            user_loc = funcs.utm_convert(lat_user, lon_user)
+            h_data = funcs.search_by_loc(data, user_loc, lat_user, lon_user)
             sm2count = funcs.submenu_end(count)
             if sm2count == 1:
                 count = 1
