@@ -104,7 +104,9 @@ def login(db):
 def search_by_code(user_input, db):
     for dea in db:
         if dea['codigo_dea'] == user_input:
-            print(dea)
+            print('This is your result:')
+            for k, v in dea.items():
+                print(f'-------\n{k} : {v}')
 
 def search_by_code2(user_input, db):
     for dea in db:
@@ -113,10 +115,10 @@ def search_by_code2(user_input, db):
 
 class Dea():
     def __init__(self, x ,y):
-        if type(x) != int:
-            raise Exception('Only inter input')
-        if type(y) != int:
-            raise Exception('Only inter input')
+        if type(x) != float:
+            raise Exception('Only float input')
+        if type(y) != float:
+            raise Exception('Only float input')
         self.x = x
         self.y = y
 
@@ -126,22 +128,34 @@ class Dea():
         h = (c_1 + c_2) ** 0.5
         return h
 
-def search_by_loc(db, x_user, y_user):
+def search_by_loc(db, pos, lat, lon):
     distance_beat = 999999999999
     first_place = None
-    count = 0
     for dea in db:
-        dea_obj = Dea(int(dea['direccion_coordenada_x']), int(dea['direccion_coordenada_y']))
-        distance = dea_obj.search_by_loc(x_user, y_user)
+        dea_obj = Dea(float(dea['direccion_coordenada_x']), float(dea['direccion_coordenada_y']))
+        distance = dea_obj.search_by_loc(pos[0], pos[1])
         if distance <= distance_beat:
             first_place = dea
             distance_beat = distance
+    print(f'This is the nearest DEA from your position: {first_place["direccion_ubicacion"]}')
+    result = utm.to_latlon(float(first_place['direccion_coordenada_x']), float(first_place['direccion_coordenada_y']), 30, 'T')
+    print(f'This is the URL of the DEA in Google Maps: https://www.google.com/maps/search/?api=1&query={result[0]}%2C{result[1]}')
+    travel_mode = input('How do you want to calculate the route?\nInsert "B" by bycicle, "C" by car, or "W" if you want to go walking: ')
+    if travel_mode.lower() == 'b':
+        print(f'This is the URL of the route from your position to the nearest DEA in Google Maps: https://www.google.com/maps/dir/?api=1&origin={lat}%2C{lon}&destination={result[0]}%2C{result[1]}&travelmode=bicycling')
+    if travel_mode.lower() == 'c':
+        print(f'This is the URL of the route from your position to the nearest DEA in Google Maps: https://www.google.com/maps/dir/?api=1&origin={lat}%2C{lon}&destination={result[0]}%2C{result[1]}&travelmode=driving')
+    if travel_mode.lower() == 'w':
+        print(f'This is the URL of the route from your position to the nearest DEA in Google Maps: https://www.google.com/maps/dir/?api=1&origin={lat}%2C{lon}&destination={result[0]}%2C{result[1]}&travelmode=walking')
+    else:
+        print('Invalid entry!')
+        return None
     return first_place
 
 def search_by_loc2(db, x_user, y_user):
     count = 0
     for dea in db:
-        dea_obj = Dea(int(dea['direccion_coordenada_x']), int(dea['direccion_coordenada_y']))
+        dea_obj = Dea(float(dea['direccion_coordenada_x']), float(dea['direccion_coordenada_y']))
         distance = dea_obj.search_by_loc(x_user, y_user)
         dea['distance'] = distance
         count += 1
@@ -214,6 +228,15 @@ def coordinates_conv():
         print('Invalid input!')
         return None
 
+def utm_convert(lat, long):
+    list_result = []
+    result = utm.from_latlon(lat, long)
+    list_result.append(result[0])
+    list_result.append(result[1])
+    list_result.append(result[2])
+    list_result.append(result[3])
+    return list_result
+
 def submenu_end(count):  
         user = input('Where do you want to go now?\nPlease, insert "e" for exit or "m" for menu: ')
         if user.lower() == 'e':
@@ -226,6 +249,5 @@ def submenu_end(count):
             print('Invalid input. Returning back to the main menu...')
             count = 0
             return count
-
 
 
