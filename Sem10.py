@@ -86,3 +86,9 @@ Employee.salary_raise = 1.02
 user_test.salary_raise()
 print(user_test.salary)
 
+#! Clase miércoles 01/09
+
+#* Pruebas de código
+
+#? Primero, se crean pruebas unitarias para ver si funciona el código para, después, implementar el código que se ha probado en el test. Para ello, se utiliza la librería «unittest». La explicación continúa en la carpeta «testing».
+
