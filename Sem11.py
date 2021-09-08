@@ -75,3 +75,49 @@ def container():
 
 a = container()
 print(a)
+
+#! Clase miércoles 08/09
+
+# def funcion(*args): #? Al pasar «*args», decimos que a la función se le puede pasar múltiples argumentos.
+#     for value in args:
+#         print(value)
+
+# def container(a_func):
+#     def substract(*args):
+#         pre_result1 = ''
+#         for num in str(args[1]):
+#             difference = range(int(num), 9)
+#             pre_result1 = pre_result1 + str(len(difference))
+#         pre_result1 = int(pre_result1)
+#         pre_result2 = a_func(args[0], pre_result1)
+#         pre_result2 = str(pre_result2)
+#         pre_result3 = pre_result2[1:]
+#         result = int(pre_result3) + 1
+#         return result
+#     return substract
+
+# @container #? Aquí, escribimos el decorador; es decir, el nombre de la función contenedora.
+# def add(a, b):
+#     return a + b
+# #? En el caso actual, nuestro decorador permite que se pueda pasar una función externa a la función «substract».
+# print(add(121, 120))
+
+#* Otro ejemplo de un decorador(para llevar un registro del uso de funciones y los argumentos utilizados en cada caso):
+
+def write_in_log(external_func):
+    def inner(*args):
+        with open('funcs_recorder.log', 'a') as file:
+            file.write(f'{external_func.__name__} func has been used with at least this arguments: {args}\n')
+        return external_func(*args)
+    return inner
+
+@write_in_log
+def add2(a, b):
+    return a + b
+
+@write_in_log
+def substract2(a, b):
+    return a - b
+
+print(add2(1, 3))
+print(substract2(1, 3))
