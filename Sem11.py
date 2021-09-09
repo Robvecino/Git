@@ -121,3 +121,20 @@ def substract2(a, b):
 
 print(add2(1, 3))
 print(substract2(1, 3))
+
+#! Clase jueves 09/09
+
+def ordenar(*args, **kwargs): #? Con «**kwargs», podemos pasar un diccionario entero como argumento.
+    try:
+        if kwargs['reverse']:
+            print('Ordenar descendente')
+    except KeyError:
+        print('Ordenar ascendente')
+
+ordenar(reverse = True)
+
+#* Django
+
+#? Es un framework para hacer páginas web con Python. Su estructura es muy rígida, lo cual hace difícil comprender su funcionamiento al principio.
+
+#TODO La explicación continúa en la carpeta Django.
